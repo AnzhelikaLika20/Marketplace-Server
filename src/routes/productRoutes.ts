@@ -1,5 +1,11 @@
 import express from 'express';
-import {createProduct, deleteProduct, getProducts, updateProduct} from '../controllers/productController';
+import {
+    createProduct,
+    deleteProduct,
+    getProductById,
+    getProducts,
+    updateProduct
+} from '../controllers/productController';
 
 const router = express.Router();
 
@@ -201,5 +207,52 @@ router.put('/:id', updateProduct);
  *         description: Продукт не найден
  */
 router.delete('/:id', deleteProduct);
+
+/**
+ * @swagger
+ * /api/products/{id}:
+ *   get:
+ *     summary: Получить информацию о конкретном продукте по ID
+ *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID продукта для получения информации
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Информация о продукте успешно получена
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                   example: "65d8bfc123456789abcdef01"
+ *                 name:
+ *                   type: string
+ *                   example: "Wireless Mouse"
+ *                 price:
+ *                   type: number
+ *                   example: 29.99
+ *                 category:
+ *                   type: string
+ *                   example: "65d8bfc123456789abcdef02"
+ *                 stock:
+ *                   type: number
+ *                   example: 100
+ *                 createdAt:
+ *                   type: string
+ *                   format: date-time
+ *                 updatedAt:
+ *                   type: string
+ *                   format: date-time
+ *       404:
+ *         description: Продукт не найден
+ */
+router.get('/:id', getProductById);
 
 export default router;

@@ -53,3 +53,22 @@ export const deleteProduct = async (req: Request, res: Response) => {
         }
     }
 };
+
+export const getProductById = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const product = await Product.findById(req.params.id).populate('category');
+        if (!product) {
+            res.status(404).json({message: 'Product not found'});
+            return;
+        }
+        res.json(product);
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error('Error message:', error.message);
+            res.status(500).json({message: 'Internal server error'});
+        } else {
+            console.error('Unexpected error:', error);
+        }
+    }
+};
+

@@ -61,3 +61,21 @@ export const deleteCategory = async (req: Request, res: Response) => {
         }
     }
 };
+
+export const getCategoryById = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const category = await Category.findById(req.params.id);
+        if (!category) {
+            res.status(404).json({message: 'Category not found'});
+            return;
+        }
+        res.json(category);
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error('Error message:', error.message);
+            res.status(500).json({message: 'Internal server error'});
+        } else {
+            console.error('Unexpected error:', error);
+        }
+    }
+};

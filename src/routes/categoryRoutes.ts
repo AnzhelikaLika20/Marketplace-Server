@@ -1,5 +1,11 @@
 import express from 'express';
-import {createCategory, deleteCategory, getCategories, updateCategory} from '../controllers/categoryController';
+import {
+    createCategory,
+    deleteCategory,
+    getCategories,
+    getCategoryById,
+    updateCategory
+} from '../controllers/categoryController';
 
 const router = express.Router();
 
@@ -161,5 +167,40 @@ router.put('/:id', updateCategory);
  *                   example: "Category deleted"
  */
 router.delete('/:id', deleteCategory);
+
+/**
+ * @swagger
+ * /api/categories/{id}:
+ *   get:
+ *     summary: Получить информацию о конкретной категории по ID
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID категории для получения информации
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Информация о категории успешно получена
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                   example: "65d8bfc123456789abcdef02"
+ *                 name:
+ *                   type: string
+ *                   example: "Electronics"
+ *                 description:
+ *                   type: string
+ *                   example: "All kinds of electronic devices"
+ *       404:
+ *         description: Категория не найдена
+ */
+router.get('/:id', getCategoryById);
 
 export default router;
