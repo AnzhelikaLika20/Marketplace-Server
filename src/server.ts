@@ -7,11 +7,14 @@ import productRoutes from "./routes/productRoutes";
 import categoryRoutes from "./routes/categoryRoutes";
 import {errorHandler, validateRequest} from "./utils/errorHandler";
 import {requestLogger, responseLogger} from "./utils/loggerMiddleware";
+import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+app.use(cors());
 
 mongoose.connect(process.env.MONGO_URI!)
     .then(() => console.log('MongoDB connected'))
