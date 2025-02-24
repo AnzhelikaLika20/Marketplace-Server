@@ -5,6 +5,8 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import productRoutes from "./routes/productRoutes";
 import categoryRoutes from "./routes/categoryRoutes";
+import {errorHandler, validateRequest} from "./utils/errorHandler";
+import {requestLogger, responseLogger} from "./utils/loggerMiddleware";
 
 dotenv.config();
 
@@ -36,6 +38,11 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+app.use(errorHandler);
+app.use(validateRequest);
+app.use(requestLogger);
+app.use(responseLogger);
 
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);

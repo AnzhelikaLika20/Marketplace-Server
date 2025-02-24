@@ -6,6 +6,7 @@ import {
     getProducts,
     updateProduct
 } from '../controllers/productController';
+import {validateProduct} from "../validators/productValidator";
 
 const router = express.Router();
 
@@ -117,7 +118,7 @@ router.get('/', getProducts);
  *       400:
  *         description: Ошибка валидации данных
  */
-router.post('/', createProduct);
+router.post('/', validateProduct, createProduct);
 
 /**
  * @swagger
@@ -177,7 +178,7 @@ router.post('/', createProduct);
  *       400:
  *         description: Ошибка валидации данных
  */
-router.put('/:id', updateProduct);
+router.put('/:id', validateProduct, updateProduct);
 
 /**
  * @swagger

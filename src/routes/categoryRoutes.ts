@@ -6,6 +6,8 @@ import {
     getCategoryById,
     updateCategory
 } from '../controllers/categoryController';
+import {param} from "express-validator";
+import {validateCategory} from "../validators/categoryValidator";
 
 const router = express.Router();
 
@@ -93,7 +95,9 @@ router.get('/', getCategories);
  *                   type: string
  *                   format: date-time
  */
-router.post('/', createCategory);
+router.post('/',
+    validateCategory,
+    createCategory);
 
 /**
  * @swagger
@@ -139,7 +143,7 @@ router.post('/', createCategory);
  *                   type: string
  *                   example: "Updated description"
  */
-router.put('/:id', updateCategory);
+router.put('/:id', validateCategory, updateCategory);
 
 /**
  * @swagger
@@ -201,6 +205,8 @@ router.delete('/:id', deleteCategory);
  *       404:
  *         description: Категория не найдена
  */
-router.get('/:id', getCategoryById);
+router.get('/:id',
+    param('id').isMongoId().withMessage('Invalid category ID'),
+    getCategoryById);
 
 export default router;
